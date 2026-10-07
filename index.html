@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wraparound Lab: integer overflow, visualized</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <main>
+    <h1>Wraparound Lab</h1>
+    <p class="lead">Computers store integers in a fixed number of bits. When a result needs more bits than that, the
+      extra bits are silently dropped. Change the numbers below and watch it happen. Click any bit to flip it.</p>
+
+    <section aria-labelledby="s1">
+      <h2 id="s1">1. Fixed-width arithmetic</h2>
+      <div class="ctl">
+        <label>Width<select id="w">
+            <option value="8" selected>8-bit</option>
+            <option value="16">16-bit</option>
+            <option value="32">32-bit</option>
+          </select></label>
+        <label>A<input id="a" type="number" value="200"></label>
+        <label>Operation<select id="op">
+            <option value="+">A + B</option>
+            <option value="-">A − B</option>
+            <option value="*">A × B</option>
+          </select></label>
+        <label>B<input id="b" type="number" value="100"></label>
+        <button id="ex">Try an overflow example</button>
+      </div>
+      <div id="viz"></div>
+      <div class="grid">
+        <div class="box"><b>As unsigned</b>
+          <div class="num" id="uv"></div>
+          <div id="uf"></div>
+        </div>
+        <div class="box"><b>As signed (two's complement)</b>
+          <div class="num" id="sv"></div>
+          <div id="sf"></div>
+        </div>
+      </div>
+      <p class="note" id="expl"></p>
+    </section>
+
+    <section aria-labelledby="s2">
+      <h2 id="s2">2. Real-world consequence: allocation size overflow</h2>
+      <p class="note" style="margin-top:0">Code like <code>buf = malloc(count * size)</code> followed by a loop that
+        writes <code>count</code> items is a classic bug. If the multiplication wraps, the buffer is far smaller than
+        the loop expects. This uses the width chosen above.</p>
+      <div class="ctl">
+        <label>count<input id="cnt" type="number" value="100"></label>
+        <label>item size (bytes)<input id="sz" type="number" value="4"></label>
+      </div>
+      <div id="alloc"></div>
+    </section>
+    <footer>Teaching demo only: it simulates arithmetic and draws bars. It contains no exploit code.</footer>
+
+    <script src="app.js"></script>
+  </main>
+</body>
+
+</html>
